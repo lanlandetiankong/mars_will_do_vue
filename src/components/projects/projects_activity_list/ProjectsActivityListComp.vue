@@ -13,6 +13,7 @@
                     </el-col>
                     <el-col :span=6 :offset=1>
                         <el-input style="width: 80%"
+                                  v-model="mySearch.projectName"
                                   placeholder="输入要查询的项目名"
                         >
                         </el-input>
@@ -20,6 +21,7 @@
                                    type="primary"
                                    size="small"
                                    icon="el-icon-search"
+                                   @click="handleGetActivityProjectList"
                         >
                         </el-button>
                     </el-col>
@@ -131,6 +133,9 @@
         },
         data() {
             return {
+                mySearch:{
+                    projectName:''
+                },
                 createDialogConfig :{
                     isVisibleSync : false,
                     projectId: '',
@@ -140,7 +145,6 @@
                     isVisibleSync:false
                 },
                 activityProjectList:[],
-                activityProjectNameSearchVal:'',
                 showActivityProjectDetailModel:{}
             }
         },
@@ -154,7 +158,7 @@
             handleGetActivityProjectList() {
                 var _this = this ;
                 const searchParam = {
-                    value:_this.activityProjectNameSearchVal
+                    value:_this.mySearch.projectName
                 };
                 ProjectsActivityListCmopApi.doGetActivityProject((searchParam)).then(res => {
                     if(res.resultList) {
@@ -188,7 +192,7 @@
             handleActivityItemDeleteClick(e,id) {
                 var _this = this ;
                 _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认要删除该项目？").then(() => {
-                    ProjectsActivityListCmopApi.doDeleteArticleById(id).then(data => {
+                    ProjectsActivityListCmopApi.doDeleteActivityById(id).then(data => {
                         _this.$handleShowSimpleNotify.handleShowSuccessNotify(data.info);
                         _this.handleGetActivityProjectList();
                     })
@@ -197,6 +201,15 @@
                 })
             },
             handleActivityItemToArchiveClick(e,id){
+                var _this = this ;
+                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认要归档该项目？").then(() => {
+                    ProjectsActivityListCmopApi.doProjectTranslateToArchiveById(id).then(data => {
+                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(data.info);
+                        _this.handleGetActivityProjectList();
+                    })
+                }).catch(() => {
+                    console.log("取消归档") ;
+                })
                 console.log("归档",id) ;
                 //项目归档
             },
