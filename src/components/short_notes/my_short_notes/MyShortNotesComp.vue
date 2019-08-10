@@ -16,8 +16,10 @@
                         </el-button>
                     </el-col>
                     <el-col :span=8>
-                        <el-input placeholder="根据便签内容查询" style="width: 100%"
-                                  v-model="searchObj.value"
+                        <el-input
+                            placeholder="根据便签内容查询" style="width: 100%"
+                            v-model="searchObj.value"
+                            @keyup.enter.native="handleGetMyShortNotes"
                         >
                         </el-input>
                     </el-col>
@@ -26,6 +28,7 @@
                                    icon="el-icon-search"
                                    type="primary"
                                    @click="handleGetMyShortNotes"
+
                         ></el-button>
                     </el-col>
                 </el-row>
@@ -47,7 +50,7 @@
                 <br>
                 <el-row :gutter=20>
                     <el-col
-                        :span=5
+                        :span=6
                         v-for="item of shortNoteList"
                         :key="item.id"
                     >
@@ -58,13 +61,13 @@
                             <div slot="header">
                                 <el-tag type="warning" effect="dark">{{item.createDateStr}}
                                 </el-tag>
-                                <el-dropdown size="mini"
-                                             class="myShortNotesCompAddedDropDownCls"
-                                             :style="myShortNotesCompAddedDropDownStyle"
-                                             @command="handleSettingCommand($event,item)"
+                                <el-dropdown
+                                    class="myShortNotesCompAddedDropDownCls"
+                                    :style="myShortNotesCompAddedDropDownStyle"
+                                    @command="handleSettingCommand($event,item)"
                                 >
                                    <span>
-                                        <i class="el-icon-arrow-down el-icon--right"></i>
+                                        <i class="el-icon-arrow-down el-icon--right" style="font-size: 20px;"></i>
                                     </span>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item command="editShortNote">
