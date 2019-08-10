@@ -110,6 +110,7 @@
                     <el-col :span="20">
                         <el-input-number
                             :min="0"
+                            controls-position="right"
                             v-model="formModel.sort"
                         >
                         </el-input-number>
@@ -221,6 +222,7 @@
             handleCreateDialogOpen(e){
                 //弹窗开启事件
                 var _this = this ;
+                debugger;
                 //projectId不为空， 即代表是[编辑]，需要渲染
                 if(!_this.$paramValidateDefine.checkParamIsBlank(_this.config.projectId)) {
                     _this.dialogConfig.dialogConfig = "编辑项目" ;
@@ -237,7 +239,10 @@
                     })
                 }   else {
                     _this.dialogConfig.dialogConfig = "创建新项目" ;
-                    _this.formModel = {}
+                    //传入默认值
+                    _this.formModel = {
+                        sort:1
+                    }
                 }
             },
         },

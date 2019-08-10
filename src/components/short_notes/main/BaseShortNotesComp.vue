@@ -9,20 +9,19 @@
 </template>
 <script>
     //components
-    import MyShortNotesComp from  '../my_short_notes/MyShortNotesComp'
+    import MyShortNotesComp from '../my_short_notes/MyShortNotesComp'
+
     export default {
         name: "BaseShortNotesComp",
-        components:{
+        components: {
             MyShortNotesComp
         },
         data() {
             return {
-                tasksActiveTabName:'myShortNotesTabName'
+                tasksActiveTabName: 'myShortNotesTabName'
             }
         },
-        methods:{
-
-        }
+        methods: {}
     }
 </script>
 <style scoped lang="stylus">

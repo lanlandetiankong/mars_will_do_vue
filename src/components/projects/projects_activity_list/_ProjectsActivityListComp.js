@@ -9,7 +9,7 @@ export const ProjectsActivityListCmopApi = {
     //取得用户的活动项目
     doGetActivityProject(searchParam) {
         const param = {
-            searchVal:searchParam.value
+            searchVal:searchParam.projectName
         } ;
         return axios.post('/project/activity/get_activity_project',qs.stringify(param)).then(res => res) ;
     },

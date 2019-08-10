@@ -29,7 +29,7 @@
                 <el-divider></el-divider>
             </el-header>
             <el-main>
-                <el-row :gutter=1>
+                <el-row :gutter=20>
                     <el-col :span=8 v-for="item of activityProjectList" :key="item.id">
                         <div class="projectActivityListCompContainerCls"
                              @dblclick="handleProjectActivityItemDblClick($event,item.id)"
@@ -157,10 +157,7 @@
             },
             handleGetActivityProjectList() {
                 var _this = this ;
-                const searchParam = {
-                    value:_this.mySearch.projectName
-                };
-                ProjectsActivityListCmopApi.doGetActivityProject((searchParam)).then(res => {
+                ProjectsActivityListCmopApi.doGetActivityProject((_this.mySearch)).then(res => {
                     if(res.resultList) {
                         _this.activityProjectList = res.resultList ;
                     }
