@@ -1,135 +1,45 @@
 <template>
     <div :style="tagListCompRootStyle" class="tagListCompRootCls">
         <el-row :gutter="20">
-            <el-col :span="tagListCardColSize">
-                <el-card shadow="hover" class="tagListCardCls" >
+            <el-col
+                :span="tagListCardColSize"
+                v-for="item of tagsList"
+                :key="item.id"
+            >
+                <el-card shadow="hover" class="tagListCardCls">
                     <div slot="header" >
                         <div style="display: inline-block;"
                              @click="handleTagCardHeadClick"
                         >
                             <i class="mars-icons mars-icon-bookmark" ></i>
-                            <span>我的标签1</span>
+                            <span>{{item.name}}</span>
                         </div>
                         <el-button type="primary" round size="small"
                                    class="tagListCardHeaderCls"
                                    style="margin-top: -5px"
-                                   @click="handleTagCardDelete"
+                                   @click="handleTagDelete($event,item.id)"
                         >
                             删除
                         </el-button>
                     </div>
                     <div @click="handleTagCardContentClick">
-                        <span class="tagListCardContentCls">任务数量(0)</span>
+                        <el-tag type="primary">
+                            任务数量(0)
+                        </el-tag>
+                        <el-tag type="danger">
+                            任务级别：{{item.hurryLevelShow}}
+                        </el-tag>
                     </div>
-                </el-card>
-            </el-col>
-            <el-col :span="tagListCardColSize">
-                <el-card shadow="hover" class="tagListCardCls" >
-                    <div slot="header" >
-                        <div style="display: inline-block;"
-                             @click="handleTagCardHeadClick"
-                        >
-                            <i class="mars-icons mars-icon-bookmark" ></i>
-                            <span>我的标签1</span>
-                        </div>
-                        <el-button type="primary" round size="small"
-                                   class="tagListCardHeaderCls"
-                                   style="margin-top: -5px"
-                                   @click="handleTagCardDelete"
-                        >
-                            删除
-                        </el-button>
-                    </div>
-                    <div @click="handleTagCardContentClick">
-                        <span class="tagListCardContentCls">任务数量(0)</span>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="tagListCardColSize">
-                <el-card shadow="hover" class="tagListCardCls" >
-                    <div slot="header" >
-                        <div style="display: inline-block;"
-                             @click="handleTagCardHeadClick"
-                        >
-                            <i class="mars-icons mars-icon-bookmark" ></i>
-                            <span>我的标签1</span>
-                        </div>
-                        <el-button type="primary" round size="small"
-                                   class="tagListCardHeaderCls"
-                                   style="margin-top: -5px"
-                                   @click="handleTagCardDelete"
-                        >
-                            删除
-                        </el-button>
-                    </div>
-                    <div @click="handleTagCardContentClick">
-                        <span class="tagListCardContentCls">任务数量(0)</span>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="tagListCardColSize">
-                <el-card shadow="hover" class="tagListCardCls" >
-                    <div slot="header" >
-                        <div style="display: inline-block;"
-                             @click="handleTagCardHeadClick"
-                        >
-                            <i class="mars-icons mars-icon-bookmark" ></i>
-                            <span>我的标签1</span>
-                        </div>
-                        <el-button type="primary" round size="small"
-                                   class="tagListCardHeaderCls"
-                                   style="margin-top: -5px"
-                                   @click="handleTagCardDelete"
-                        >
-                            删除
-                        </el-button>
-                    </div>
-                    <div @click="handleTagCardContentClick">
-                        <span class="tagListCardContentCls">任务数量(0)</span>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="tagListCardColSize">
-                <el-card shadow="hover" class="tagListCardCls" >
-                    <div slot="header" >
-                        <div style="display: inline-block;"
-                             @click="handleTagCardHeadClick"
-                        >
-                            <i class="mars-icons mars-icon-bookmark" ></i>
-                            <span>我的标签1</span>
-                        </div>
-                        <el-button type="primary" round size="small"
-                                   class="tagListCardHeaderCls"
-                                   style="margin-top: -5px"
-                                   @click="handleTagCardDelete"
-                        >
-                            删除
-                        </el-button>
-                    </div>
-                    <div @click="handleTagCardContentClick">
-                        <span class="tagListCardContentCls">任务数量(0)</span>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="tagListCardColSize">
-                <el-card shadow="hover" class="tagListCardCls" >
-                    <div slot="header" >
-                        <div style="display: inline-block;"
-                             @click="handleTagCardHeadClick"
-                        >
-                            <i class="mars-icons mars-icon-bookmark" ></i>
-                            <span>我的标签1</span>
-                        </div>
-                        <el-button type="primary" round size="small"
-                                   class="tagListCardHeaderCls"
-                                   style="margin-top: -5px"
-                                   @click="handleTagCardDelete"
-                        >
-                            删除
-                        </el-button>
-                    </div>
-                    <div @click="handleTagCardContentClick">
-                        <span class="tagListCardContentCls">任务数量(0)</span>
+                    <br>
+                    <div>
+                        <el-collapse accordion>
+                            <el-collapse-item title="便签1">
+                                {{item.firstNote}}
+                            </el-collapse-item>
+                            <el-collapse-item title="便签2">
+                                {{item.secondNote}}
+                            </el-collapse-item>
+                        </el-collapse>
                     </div>
                 </el-card>
             </el-col>
@@ -137,10 +47,12 @@
     </div>
 </template>
 <script>
+    import {TagListCompApi} from './_TagListComp'
     export default {
         name: "TagListComp",
         props: {
-            isBaseTagItemTaskListCompShow:Boolean
+            isBaseTagItemTaskListCompShow:Boolean,
+            tagsList:Array
         },
         data() {
             return {
@@ -162,9 +74,16 @@
                 //card 内容点击事件
                 console.log(event) ;
             },
-            handleTagCardDelete(event) {
-                //删除card事件处理
-                console.log(event) ;
+            handleTagDelete(event,tagId) {
+                var _this = this ;
+                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认删除该标签？").then(()=>{
+                    TagListCompApi.doDeleteMyTagById(tagId).then(res => {
+                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info,3000) ;
+                        _this.handleRefreshTagsList() ;
+                    })
+                }).catch(() => {
+                    console.log("用户取消删除标签");
+                })
             },
             handleChange(newVal) {
                 //open
@@ -175,8 +94,9 @@
                     this.tagListCardColSize =6 ;
                     this.tagListCompRootStyle.width = "100%" ;
                 }
-                //父组件更新
-                console.log("changle ") ;
+            },
+            handleRefreshTagsList(e) {
+                this.$emit('refresh-tags-list',e);
             }
         },
         watch:{

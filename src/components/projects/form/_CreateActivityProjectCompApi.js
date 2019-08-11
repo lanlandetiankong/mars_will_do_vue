@@ -38,7 +38,7 @@ export const CreateActivityProjectCompApi = {
         return axios.post('/project/activity/update/activity_project',qs.stringify(param)).then(res => res) ;
     },
     doGetProjectHurryLevelBindParam() {
-        return axios.post('/bind_param/project_level').then(res => res) ;
+        return axios.post('/bind_param/project_hurry_level').then(res => res) ;
     },
     doGetActivityProjectById(id) {
         var param = {

@@ -2,7 +2,7 @@
     <div class="tagListCompRootCls" :style="tagListCompRootStyle">
         <el-container>
             <el-header>
-                <el-tag hit="true" size="medium">标签"xxx"的任务</el-tag>
+                <el-tag :hit=true  size="medium">标签"xxx"的任务</el-tag>
             </el-header>
             <el-main>
                 <el-timeline>
