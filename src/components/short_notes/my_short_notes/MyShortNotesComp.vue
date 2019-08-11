@@ -28,7 +28,6 @@
                                    icon="el-icon-search"
                                    type="primary"
                                    @click="handleGetMyShortNotes"
-
                         ></el-button>
                     </el-col>
                 </el-row>
@@ -180,10 +179,15 @@
             },
             handleDeleteShortNotes(command, item) {
                 var _this = this;
-                MyShortNotesCmopApi.doDeleteMyShortNotes(item).then(res => {
-                    _this.handleGetMyShortNotes();
-                    _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info, 3000);
-                });
+                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("删除便签后不可恢复！是否确认删除该便签？").then(() =>{
+                    MyShortNotesCmopApi.doDeleteMyShortNotes(item).then(res => {
+                        _this.handleGetMyShortNotes();
+                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info, 3000);
+                    });
+                }).catch(() =>{
+                    console.log("用户取消删除便签") ;
+                })
+
             },
             handleUpdateFormSubmit(e) {
                 var _this = this;
