@@ -7,7 +7,6 @@
             <el-form label-width="80px"
                      label-position="right"
                      v-model="tagFormModel"
-
             >
                 <el-form-item prop="name" label="标签名">
                     <el-col :span=20>

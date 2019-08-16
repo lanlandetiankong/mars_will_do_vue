@@ -6,7 +6,7 @@
                        @click="handleAddTagsBtnClick('add',$event)">
                 添加标签
             </el-button>
-            <el-tooltip content="点击开关切换是否显示任务列表">
+            <el-tooltip content="点击开关切换是否显示任务列表" v-show="tagsList.length > 0">
                 <el-tag>
                     任务列表
                     <el-switch
@@ -94,7 +94,6 @@
                 this.isFormDialogVisible = false ;
             },
             handleGetTagsList() {
-                console.log("handleGetTagsList");
                 var _this = this ;
                 BaseTagsCompApi.doGetAllMyTags(_this.searchModel).then(res => {
                     _this.tagsList = res.resultList ;

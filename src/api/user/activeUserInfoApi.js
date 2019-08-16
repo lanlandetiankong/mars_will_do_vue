@@ -4,11 +4,5 @@ import axios from '~Config/axios/httpConfig'
 import qs from 'qs'
 
 export const axiosPostActiveUserInfo = {
-    doGetUserInfo : (userinfo) => {
-        const params = {
-            user_id:userinfo.fid,
-            token:userinfo.token
-        }
-        return axios.post('/userinfo/get_active_userinfo',qs.stringify(params)).then(res => res.data) ;
-    }
+
 }

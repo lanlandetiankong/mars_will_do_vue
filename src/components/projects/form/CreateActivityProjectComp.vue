@@ -135,6 +135,7 @@
 </template>
 <script>
     import {CreateActivityProjectCompApi} from  './_CreateActivityProjectCompApi'
+    import {ProjectBindParamApi} from '~ApiPath/bind/ProjectBindParamApi'
     export default {
         name: "CreateActivityProjectComp",
         props:{
@@ -211,7 +212,7 @@
             doGetProjectHurryLevelBind() {
                 //取得 项目[紧急级别]
                 var _this = this ;
-                CreateActivityProjectCompApi.doGetProjectHurryLevelBindParam().then(res => {
+                ProjectBindParamApi.doGetProjectHurryLevelBindParam().then(res => {
                     _this.hurryLevels = res.enumList ;
                 });
             },

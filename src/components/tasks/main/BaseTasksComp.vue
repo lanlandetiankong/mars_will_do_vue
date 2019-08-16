@@ -22,30 +22,19 @@
                 <div class="baseTaskCompShowOptionsSelectCls">
                     <el-select
                         size="small"
-                        :clearable=true
-                        placeholder="展示类型"
-                        v-model="baseTasksShowType">
-                        <el-option
-                            v-for="item of baseTasksShowTypeSelectOptions"
-                            :key="item.id"
-                            :value="item.value"
-                            :label="item.label"></el-option>
-                    </el-select>
-                    <el-select
-                        size="small"
                         placeholder="进度筛选"
                         v-model="baseTasksCompleteRate">
                         <el-option
-                            v-for="item of baseTasksShowTypeSelectOptions"
+                            v-for="item of baseTasksCompleteRateFilterOptions"
                             :key="item.id"
                             :value="item.value"
                             :label="item.label"></el-option>
                     </el-select>
-                    <el-button
-                        type="primary"
-                        size="mini"
-                        round
-                        icon="mars-icons mars-icon-add"
+                    <el-button round
+                               type="primary"
+                               size="mini"
+                               icon="mars-icons mars-icon-add"
+                               @click="handleAddTask"
                     >
                     </el-button>
                 </div>
@@ -55,81 +44,96 @@
                 </task-quadrant-show-comp>
             </el-main>
         </el-container>
+        <task-create-form-comp
+            :isFormDialogVisible="isFormDialogVisible"
+            :isNewForm="isNewForm"
+            :taskFormModel="taskFormModel"
+        >
+        </task-create-form-comp>
     </div>
 </template>
 <script>
     import TaskQuadrantShowComp from '../quadrant_show/TasksQuadrantShowComp'
+    import TaskCreateFormComp from '../form/create/TaskCreateFormComp'
+
     export default {
         name: "BaseTasksComp",
-        components:{
-            TaskQuadrantShowComp
+        components: {
+            TaskQuadrantShowComp,
+            TaskCreateFormComp
         },
         data() {
             return {
-                baseTasksPickDate:new Date(),
-                baseTasksPickOption:{
-                    shortcuts:[{
-                        text:'最近一周',
+                baseTasksPickDate: new Date(),
+                baseTasksPickOption: {
+                    shortcuts: [{
+                        text: '最近一周',
                         onClick(picker) {
-                            const end = new Date() ;
-                            const start = new Date() ;
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 *7 ) ;
-                            picker.$emit('pick',[start,end]) ;
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
                         }
-                    },{
-                        text:'最近一个月',
+                    }, {
+                        text: '最近一个月',
                         onClick(picker) {
-                            const end = new Date() ;
-                            const start = new Date() ;
+                            const end = new Date();
+                            const start = new Date();
                             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
                             picker.$emit('pick', [start, end]);
                         }
-                    },{
-                        text:'最近三个月',
+                    }, {
+                        text: '最近三个月',
                         onClick(picker) {
-                            const end = new Date() ;
-                            const start = new Date() ;
+                            const end = new Date();
+                            const start = new Date();
                             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
                             picker.$emit('pick', [start, end]);
                         }
                     }]
                 },
-                baseTasksShowType:'',
-                baseTasksCompleteRate:'',
-                baseTasksShowTypeSelectOptions:[
+                baseTasksShowType: '',
+                baseTasksCompleteRate: '',
+                baseTasksCompleteRateFilterOptions: [
                     {
-                        id:'showType1',
-                        label:'四象限',
-                        value:'type1'
+                        id: 'completeRate1',
+                        label: '全部',
+                        value: 'type1'
                     },
                     {
-                        id:'showType2',
-                        label:'时间轴',
-                        value:'type2'
+                        id: 'completeRate2',
+                        label: '已完成',
+                        value: 'type2'
+                    },
+                    {
+                        id: 'completeRate3',
+                        label: '未完成',
+                        value: 'type3'
                     }
                 ],
-                baseTasksCompleteRateFilterOptions:[
-                    {
-                        id:'completeRate1',
-                        label:'全部',
-                        value:'type1'
-                    },
-                    {
-                        id:'completeRate2',
-                        label:'已完成',
-                        value:'type2'
-                    },
-                    {
-                        id:'completeRate3',
-                        label:'未完成',
-                        value:'type3'
-                    }
-                ]
+                isNewForm:true,
+                isFormDialogVisible:true,
+                taskFormModel:{
+                    id:'',
+                    name: '',
+                    hurryLevel: '',
+                    activityProjectId:'',
+                    taskLevel:'',
+                    planDate:[],
+                    presenter:'',
+                    participant:'',
+                    firstNote: '',
+                    secondNote: '',
+                    thirdNote:''
+                }
             }
         },
-        methods:{
+        methods: {
             handleBaseTasksDatePickChange(val) {
                 console.log(val);
+            },
+            handleAddTask(e) {
+
             }
         }
     }
