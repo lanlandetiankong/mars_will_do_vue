@@ -34,13 +34,17 @@
                                type="primary"
                                size="mini"
                                icon="mars-icons mars-icon-add"
-                               @click="handleAddTask"
+                               @click="handleAddTaskForm"
                     >
                     </el-button>
                 </div>
             </el-header>
             <el-main>
-                <task-quadrant-show-comp>
+                <task-quadrant-show-comp
+                    :tableList="taskTableList"
+                    @action-edit="handleEditTaskForm"
+                    @action-refresh="handleGetTaskTableList"
+                >
                 </task-quadrant-show-comp>
             </el-main>
         </el-container>
@@ -48,11 +52,14 @@
             :isFormDialogVisible="isFormDialogVisible"
             :isNewForm="isNewForm"
             :taskFormModel="taskFormModel"
+            @edit-form-close="handleAddTaskFormDialogClose"
         >
         </task-create-form-comp>
     </div>
 </template>
 <script>
+    import {BaseTaskCompApi} from './_BaseTasksComp'
+
     import TaskQuadrantShowComp from '../quadrant_show/TasksQuadrantShowComp'
     import TaskCreateFormComp from '../form/create/TaskCreateFormComp'
 
@@ -112,7 +119,10 @@
                     }
                 ],
                 isNewForm:true,
-                isFormDialogVisible:true,
+                isFormDialogVisible:false,
+                defaultTaskFormModel:{
+                    id:''
+                },
                 taskFormModel:{
                     id:'',
                     name: '',
@@ -125,16 +135,44 @@
                     firstNote: '',
                     secondNote: '',
                     thirdNote:''
-                }
+                },
+                searchModel:{
+                    content:''
+                },
+                taskTableList:[]
             }
         },
         methods: {
             handleBaseTasksDatePickChange(val) {
                 console.log(val);
             },
-            handleAddTask(e) {
-
-            }
+            handleAddTaskForm(e) {
+                this.isFormDialogVisible = true ;
+                this.taskFormModel = this.defaultTaskFormModel ;
+            },
+            handleEditTaskForm(item){
+                this.isFormDialogVisible = true ;
+                this.isNewForm = false ;
+                this.taskFormModel = item ;
+                var itemPlanStartDateStr = item.planStartDateStr;
+                var itemPlanEndDateStr = item.planEndDateStr;
+                var itemPlanDateStrArr = [itemPlanStartDateStr,itemPlanEndDateStr] ;
+                console.log(item) ;
+                this.taskFormModel.planDate = itemPlanDateStrArr ;
+            },
+            handleAddTaskFormDialogClose(e) {
+                this.isFormDialogVisible = false ;
+                this.taskFormModel = this.defaultTaskFormModel ;
+            },
+            handleGetTaskTableList(e) {
+                var _this = this ;
+                BaseTaskCompApi.doGetAllMyTasks(_this.searchModel).then(res => {
+                    _this.taskTableList = res.resultList ;
+                })
+            },
+        },
+        mounted(){
+            this.handleGetTaskTableList();
         }
     }
 </script>

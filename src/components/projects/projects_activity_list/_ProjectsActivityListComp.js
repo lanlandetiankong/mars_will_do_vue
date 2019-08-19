@@ -11,7 +11,7 @@ export const ProjectsActivityListCmopApi = {
         const param = {
             searchVal:searchParam.projectName
         } ;
-        return axios.post('/project/activity/get_activity_project',qs.stringify(param)).then(res => res) ;
+        return axios.post('/project/activity/get/activity_project',qs.stringify(param)).then(res => res) ;
     },
     //删除活动项目
     doDeleteActivityById(projectId) {

@@ -8,15 +8,44 @@ import qs from 'qs'
 export const TaskCreateFormCompApi = {
     //取得用户的活动项目
     doGetActivityProject() {
-        const param = {
-        } ;
-        return axios.post('/project/activity/get_activity_project',qs.stringify(param)).then(res => res) ;
+        const param = {};
+        return axios.post('/project/activity/get/activity_project', qs.stringify(param)).then(res => res);
     },
-    //取得用户的活动项目
+    //新增 用户的活动项目
     doAddActivityProjectByFormModel(formModel) {
         const param = {
-
-        } ;
-        return axios.post('/project/activity/get_activity_project',qs.stringify(param)).then(res => res) ;
+            name: formModel.name,
+            description:formModel.description,
+            hurryLevel: formModel.hurryLevel,
+            activityProjectId: formModel.activityProjectId,
+            taskLevel: formModel.taskLevel,
+            planStartDate:formModel.planDate[0],
+            planEndDate:formModel.planDate[1],
+            presenter: formModel.presenter,
+            participant: formModel.participant,
+            firstNote: formModel.firstNote,
+            secondNote: formModel.secondNote,
+            thirdNote: formModel.thirdNote
+        };
+        return axios.post('/task/add/task', qs.stringify(param)).then(res => res);
+    },
+    //新增 用户的活动项目
+    doEditActivityProjectByFormModel(formModel) {
+        const param = {
+            id:formModel.id,
+            name: formModel.name,
+            description:formModel.description,
+            hurryLevel: formModel.hurryLevel,
+            activityProjectId: formModel.activityProjectId,
+            taskLevel: formModel.taskLevel,
+            planStartDate:formModel.planDate[0],
+            planEndDate:formModel.planDate[1],
+            presenter: formModel.presenter,
+            participant: formModel.participant,
+            firstNote: formModel.firstNote,
+            secondNote: formModel.secondNote,
+            thirdNote: formModel.thirdNote
+        };
+        return axios.post('/task/update/task', qs.stringify(param)).then(res => res);
     },
 }

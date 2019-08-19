@@ -1,8 +1,10 @@
 <template>
     <div>
-        <el-dialog  width="50%"
-            :visible.async="isFormDialogVisible"
-            :title="dialogTitle">
+        <el-dialog width="50%"
+                   :visible.sync="isFormDialogVisible"
+                   :title="dialogTitle"
+                   :close-on-click-modal=false
+        >
             <el-form
                 label-width="100px"
                 v-model="taskFormModel">
@@ -31,7 +33,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="描述" prop="description" >
+                <el-form-item label="描述" prop="description">
                     <el-input v-model="taskFormModel.description"></el-input>
                 </el-form-item>
                 <br/>
@@ -64,18 +66,18 @@
                 <el-form-item label="便签2" prop="secondNote" v-show="isFormShowMore">
                     <el-input v-model="taskFormModel.secondNote"></el-input>
                 </el-form-item>
-                <el-form-item label="便签3" prop="thirdNote">
+                <el-form-item label="便签3" prop="thirdNote" v-show="isFormShowMore">
                     <el-input v-model="taskFormModel.thirdNote"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button
                         type="primary"
-                        @click="handleSubmitTagsForm"
+                        @click="handleSubmitTaskForm"
                     >
                         确定
                     </el-button>
                     <el-button
-                        @click="$emit('edit-form-close',$event)">
+                        @click="handleCloseFormDialog">
                         取消
                     </el-button>
                 </el-form-item>
@@ -87,52 +89,73 @@
 <script>
     import {TaskCreateFormCompApi} from './_TaskCreateFormComp'
     import {TaskBindParamApi} from '~ApiPath/bind/TaskBindParamApi'
+
     export default {
         name: "TaskCreateFormComp",
         props: {
             taskFormModel: {
-                id:'',
+                id: '',
                 name: '',
+                description:'',
                 hurryLevel: '',
-                activityProjectId:'',
-                taskLevel:'',
-                planDate:[],
-                presenter:'',
-                participant:'',
+                activityProjectId: '',
+                taskLevel: '',
+                planDate: [],
+                presenter: '',
+                participant: '',
                 firstNote: '',
                 secondNote: '',
-                thirdNote:''
+                thirdNote: ''
             },
             isNewForm: Boolean,
-            isFormDialogVisible: Boolean,
-            isFormShowMore:false
+            isFormDialogVisible: Boolean
         },
         data() {
             return {
-                taskHurryLevelList:[],
-                taskProjectList:[]
+                taskHurryLevelList: [],
+                taskProjectList: [],
+                isFormShowMore: false
             }
         },
         computed: {
             dialogTitle() {
-                return this.isNewForm ? "新建任务" : "编辑任务" ;
+                return this.isNewForm ? "新建任务" : "编辑任务";
             }
         },
         methods: {
             handleGetTaskHurryLevelList() {
                 //任务紧急级别
-                var _this = this ;
+                var _this = this;
                 TaskBindParamApi.doGetTaskHurryLevelBindParam().then(res => {
-                    _this.taskHurryLevelList = res.enumList ;
+                    _this.taskHurryLevelList = res.enumList;
                 })
             },
             handleGetTaskProjectList() {
                 //用户的项目
-                var _this = this ;
+                var _this = this;
                 TaskCreateFormCompApi.doGetActivityProject().then(res => {
-                    _this.taskProjectList = res.resultList ;
-                    console.log(_this.taskProjectList);
+                    _this.taskProjectList = res.resultList;
+                    //console.log(_this.taskProjectList);
                 })
+            },
+            handleSubmitTaskForm(e) {
+                var _this = this;
+                //新增
+                if(_this.isNewForm == true) {
+                    TaskCreateFormCompApi.doAddActivityProjectByFormModel(_this.taskFormModel).then(res => {
+                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info);
+                        _this.handleCloseFormDialog(e);
+                    })
+                }   else {
+                    //更新
+                    TaskCreateFormCompApi.doEditActivityProjectByFormModel(_this.taskFormModel).then(res => {
+                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info);
+                        _this.handleCloseFormDialog(e);
+                    })
+                }
+            },
+            handleCloseFormDialog(e) {
+                this.$emit('edit-form-close', e);
             }
         },
         mounted() {
