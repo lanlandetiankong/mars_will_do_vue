@@ -16,8 +16,8 @@ import '~Assets/styles/border.css'
 import '~Assets/iconfont/iconfont.css'
 
 //---------------------------------------------------------------------------->>>>>>js
-import {BeeUtil} from '~Assets/plugins/bee/beeUtil.js'
-import {commonEleNotice} from '~Assets/js/notice/myCommonNotice.js'
+import {BeeUtil} from '~Assets/js/util/bee/beeUtil.js'
+import {commonEleNotice} from '~Assets/js/common/notice/myCommonNotice.js'
 
 //---------------------------------------------------------------------------->>>>>>api
 import {axiosPostActiveUserInfo} from '~ApiPath/user/activeUserInfoApi.js'
