@@ -143,11 +143,13 @@
                 if(_this.showArchiveProjectDetailModel.id){
                     if(_this.showArchiveProjectDetailModel.startDate) {
                         //取得显示的开始日期
-                        _this.showArchiveProjectDetailModel.startDateShow = _this.$formatDateUtil.formatYMDDateForShow(_this.showArchiveProjectDetailModel.startDate);
+                        _this.showArchiveProjectDetailModel.startDateShow = this.$BeeUtil.DateUtils.formatDatePatternShow(_this.showArchiveProjectDetailModel.startDate);
+
                     }
                     if(_this.showArchiveProjectDetailModel.endDate) {
                         //取得显示的日期
-                        _this.showArchiveProjectDetailModel.endDateShow = _this.$formatDateUtil.formatYMDDateForShow(_this.showArchiveProjectDetailModel.endDate);
+                        _this.showArchiveProjectDetailModel.endDateShow = this.$BeeUtil.DateUtils.formatDatePatternShow(_this.showArchiveProjectDetailModel.endDate);
+
                     }
 
                     _this.detailDialogConfig.isVisibleSync = true ;
@@ -156,9 +158,9 @@
             },
             handleArchiveItemDeleteClick(e,id) {
                 var _this = this ;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认要删除该归档项目？").then(() => {
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("是否确认要删除该归档项目？").then(() => {
                     ProjectsArchiveListCmopApi.doDeleteArchiveById(id).then(data => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(data.info);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(data.info);
                         _this.handleGetArchiveProjectList();
                     })
                 }).catch(() => {

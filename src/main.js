@@ -8,7 +8,6 @@ import elementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from '@/store/index'
 import axios from './config/axios/httpConfig'
-import * as globalFilter from './filters/filters'
 
 //---------------------------------------------------------------------------->>>>>>css
 import '~Assets/styles/reset.css'
@@ -17,28 +16,11 @@ import '~Assets/styles/border.css'
 import '~Assets/iconfont/iconfont.css'
 
 //---------------------------------------------------------------------------->>>>>>js
-import {handleShowSimpleNotify} from '~Assets/js/myCommonNotification.js'
-import {handleMyAxiosAfter} from '~Assets/js/myAxiosAfterServer.js'
-import {handleSimpleConfirm} from '~Assets/js/myCommonMessageBox.js'
-import {blogArticleConstant} from '~Assets/js/myComponentConstant.js'
-import {formatDateUtil} from '~Assets/js/mydate.js'
-import {quillToolbarConfig} from '~Assets/js/myQuillEditorConfig.js'
-
+import {BeeUtil} from '~Assets/plugins/bee/beeUtil.js'
+import {commonEleNotice} from '~Assets/js/notice/myCommonNotice.js'
 
 //---------------------------------------------------------------------------->>>>>>api
 import {axiosPostActiveUserInfo} from '~ApiPath/user/activeUserInfoApi.js'
-
-//---------------------------------------------------------------------------->>>>>>utils
-import {paramValidateDefine} from '~Utils/validate/params-validate.js'
-import {commonFunc} from  '~Utils/common/common-func.js'
-
-
-Vue.prototype.$http = axios
-for (var key in globalFilter) {
-    Vue.filter(key, globalFilter[key])
-}
-
-
 
 
 router.beforeEach((to, from, next) => {
@@ -61,21 +43,13 @@ router.beforeEach((to, from, next) => {
 
 
 Vue.prototype.$axiosPostActiveUserInfo = axiosPostActiveUserInfo
-Vue.prototype.$paramValidateDefine = paramValidateDefine
-Vue.prototype.$commonFunc = commonFunc
 
 //在Vue原型链注册，取得时：this.$actionname
-Vue.prototype.$handleShowSimpleNotify = handleShowSimpleNotify
-Vue.prototype.$handleMyAxiosAfter = handleMyAxiosAfter
-Vue.prototype.$handleSimpleConfirm = handleSimpleConfirm
-Vue.prototype.$blogArticleConstant = blogArticleConstant
-Vue.prototype.$formatDateUtil = formatDateUtil
-Vue.prototype.$quillToolbarConfig = quillToolbarConfig
+Vue.prototype.$commonEleNotice = commonEleNotice
+Vue.prototype.$BeeUtil = BeeUtil
 Vue.prototype.$axiosPostActiveUserInfo = axiosPostActiveUserInfo
 
 Vue.config.productionTip = false ;
-
-
 Vue.use(elementUI);
 
 

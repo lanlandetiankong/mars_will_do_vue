@@ -225,15 +225,14 @@
                 var _this = this ;
                 debugger;
                 //projectId不为空， 即代表是[编辑]，需要渲染
-                if(!_this.$paramValidateDefine.checkParamIsBlank(_this.config.projectId)) {
+                if(!_this.$BeeUtil.StringUtils.isBlank(_this.config.projectId)) {
                     _this.dialogConfig.dialogConfig = "编辑项目" ;
                     CreateActivityProjectCompApi.doGetActivityProjectById(_this.config.projectId).then(res => {
                         const resultBean = res.bean;
                         if(resultBean) {
                             _this.formModel = resultBean ;
-                            var startDateTime = _this.$formatDateUtil.formatDateTimeForShow(resultBean.startDate) ;
-                            var endDateTime = _this.$formatDateUtil.formatDateTimeForShow(resultBean.endDate) ;
-                            //var activityPlanDate = ['2019-08-05 12:00:00','2019-08-05 13:00:00'];
+                            var startDateTime = this.$BeeUtil.DateUtils.formatDateTimePatternShow(resultBean.startDate);
+                            var endDateTime = this.$BeeUtil.DateUtils.formatDateTimePatternShow(resultBean.endDate);
                             var activityPlanDate = [startDateTime,endDateTime] ;
                             _this.formModel.activityPlanDate = activityPlanDate ;
                         }

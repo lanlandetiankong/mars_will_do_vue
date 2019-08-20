@@ -76,9 +76,9 @@
             },
             handleTagDelete(event,tagId) {
                 var _this = this ;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认删除该标签？").then(()=>{
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("是否确认删除该标签？").then(()=>{
                     TagListCompApi.doDeleteMyTagById(tagId).then(res => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info,3000) ;
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info,3000) ;
                         _this.handleRefreshTagsList() ;
                     })
                 }).catch(() => {

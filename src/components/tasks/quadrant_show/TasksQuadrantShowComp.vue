@@ -106,9 +106,9 @@
             handleDeleteTaskAction(item) {
                 //根据任务id删除任务
                 var _this = this ;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认要删除该任务？").then(() => {
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("是否确认要删除该任务？").then(() => {
                     TasksQuadrantShowCompApi.doDeleteTaskById(item.id).then(data => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(data.info);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(data.info);
                         _this.doRefreshTaskList();
                     })
                 }).catch(() => {

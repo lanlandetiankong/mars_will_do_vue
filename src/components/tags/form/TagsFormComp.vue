@@ -89,11 +89,11 @@
                 var _this = this;
                 if (_this.isNewForm == true) {
                     TagsFormCompApi.doCreateTagsForm(_this.tagFormModel).then(res => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info) ;
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info) ;
                     });
                 } else {
                     TagsFormCompApi.doUpdateTagsForm(_this.tagFormModel).then(res => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info) ;
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info) ;
                     });
                 }
                 this.$emit('edit-form-submit', e);

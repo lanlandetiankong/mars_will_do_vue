@@ -40,7 +40,7 @@
                     var formModel = args[0];
                     LoginPageApi.doUserAccountLogin(formModel).then(res => {
                         if(res.hasWarning){
-                            _this.$handleShowSimpleNotify.handleShowWarningNotify(res.info) ;
+                            _this.$commonEleNotice.notification.handleShowWarningNotify(res.info) ;
                         }
                         if(res.actionFlag == false){
                             //登录失败：清空输入框
@@ -82,7 +82,7 @@
             }
         },
         mounted() {
-
+            //this.$commonEleNotice.msgBox.handleShowSimpleInfoConfirm("测试");
         }
     }
 </script>

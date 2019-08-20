@@ -170,7 +170,7 @@
             },
             dealSettingCommandOfLoginOut(command){
                 var _this = this ;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认退出登录？").then(res => {
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("是否确认退出登录？").then(res => {
                     _this.$store.commit("LOGIN_ACCOUNT_OUT");
                     _this.$router.push("/");
                 }).catch(err => {

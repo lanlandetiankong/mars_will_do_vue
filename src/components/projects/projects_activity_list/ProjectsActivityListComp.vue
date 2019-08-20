@@ -169,11 +169,12 @@
                 if(_this.showActivityProjectDetailModel.id){
                     if(_this.showActivityProjectDetailModel.startDate) {
                         //取得显示的开始日期
-                        _this.showActivityProjectDetailModel.startDateShow = _this.$formatDateUtil.formatYMDDateForShow(_this.showActivityProjectDetailModel.startDate);
+                        _this.showActivityProjectDetailModel.startDateShow = this.$BeeUtil.DateUtils.formatDatePatternShow(_this.showActivityProjectDetailModel.startDate);
+
                     }
                     if(_this.showActivityProjectDetailModel.endDate) {
                         //取得显示的日期
-                        _this.showActivityProjectDetailModel.endDateShow = _this.$formatDateUtil.formatYMDDateForShow(_this.showActivityProjectDetailModel.endDate);
+                        _this.showActivityProjectDetailModel.endDateShow = this.$BeeUtil.DateUtils.formatDatePatternShow(_this.showActivityProjectDetailModel.endDate);
                     }
 
                     _this.detailDialogConfig.isVisibleSync = true ;
@@ -188,9 +189,9 @@
             },
             handleActivityItemDeleteClick(e,id) {
                 var _this = this ;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认要删除该项目？").then(() => {
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("是否确认要删除该项目？").then(() => {
                     ProjectsActivityListCmopApi.doDeleteActivityById(id).then(data => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(data.info);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(data.info);
                         _this.handleGetActivityProjectList();
                     })
                 }).catch(() => {
@@ -199,9 +200,9 @@
             },
             handleActivityItemToArchiveClick(e,id){
                 var _this = this ;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("是否确认要归档该项目？").then(() => {
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("是否确认要归档该项目？").then(() => {
                     ProjectsActivityListCmopApi.doProjectTranslateToArchiveById(id).then(data => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(data.info);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(data.info);
                         _this.handleGetActivityProjectList();
                     })
                 }).catch(() => {

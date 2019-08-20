@@ -143,13 +143,13 @@
                 var _this = this;
                 var _newContent = _this.newForm.content;
                 if (_newContent == "") {
-                    _this.$handleShowSimpleNotify.handleShowWarningNotify("请先输入有效文字后再点击保存！", 3000);
+                    _this.$commonEleNotice.notification.handleShowWarningNotify("请先输入有效文字后再点击保存！", 3000);
                     return false;
                 }
                 MyShortNotesCmopApi.doAddMyShortNote(_this.newForm).then(res => {
                     _this.handleGetMyShortNotes();
                     _this.newForm = _this.defaultForm;
-                    _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info, 3000);
+                    _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info, 3000);
                 })
             },
             handleGetMyShortNotes() {
@@ -161,7 +161,7 @@
             handleSettingCommand(command, item) {
                 var _this = this;
                 if (typeof command == "undefined") {
-                    _this.$handleShowSimpleNotify.handleShowWarningNotify("未为该下拉菜单设置Command!");
+                    _this.$commonEleNotice.notification.handleShowWarningNotify("未为该下拉菜单设置Command!");
                     return false;
                 }
                 if ("editShortNote" == command) {
@@ -179,10 +179,10 @@
             },
             handleDeleteShortNotes(command, item) {
                 var _this = this;
-                _this.$handleSimpleConfirm.handleShowSimpleWarningConfirm("删除便签后不可恢复！是否确认删除该便签？").then(() =>{
+                _this.$commonEleNotice.msgBox.handleShowSimpleWarningConfirm("删除便签后不可恢复！是否确认删除该便签？").then(() =>{
                     MyShortNotesCmopApi.doDeleteMyShortNotes(item).then(res => {
                         _this.handleGetMyShortNotes();
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info, 3000);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info, 3000);
                     });
                 }).catch(() =>{
                     console.log("用户取消删除便签") ;

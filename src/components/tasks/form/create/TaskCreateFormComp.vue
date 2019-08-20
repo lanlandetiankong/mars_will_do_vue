@@ -143,13 +143,13 @@
                 //新增
                 if(_this.isNewForm == true) {
                     TaskCreateFormCompApi.doAddActivityProjectByFormModel(_this.taskFormModel).then(res => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info);
                         _this.handleCloseFormDialog(e);
                     })
                 }   else {
                     //更新
                     TaskCreateFormCompApi.doEditActivityProjectByFormModel(_this.taskFormModel).then(res => {
-                        _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info);
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info);
                         _this.handleCloseFormDialog(e);
                     })
                 }

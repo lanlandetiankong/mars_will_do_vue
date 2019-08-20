@@ -47,7 +47,7 @@
             handleUpdateEditForm(e) {
                 var _this = this;
                 MyShortNotesEditFormCmopApi.doUpdateMyShortNote(_this.editForm).then(res => {
-                    _this.$handleShowSimpleNotify.handleShowSuccessNotify(res.info, 3000);
+                    _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info, 3000);
                 })
                 this.$emit('edit-form-submit', e);
             },
