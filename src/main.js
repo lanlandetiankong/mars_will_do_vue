@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
         if (to.matched.length > 0 && !to.matched.some(record => record.meta.requiresAuth)) {
             next() ;
         } else {
-            handleShowSimpleNotify.handleShowErrorNotify("会话已失效!请重新登录！",5000);
+            commonEleNotice.notification.handleShowErrorNotify("会话已失效!请重新登录！",5000);
             next({ path: '/' })
         }
     }   else {
