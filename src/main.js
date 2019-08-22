@@ -22,7 +22,7 @@ import {commonEleNotice} from '~Assets/js/common/notice/myCommonNotice.js'
 //---------------------------------------------------------------------------->>>>>>api
 import {axiosPostActiveUserInfo} from '~ApiPath/user/activeUserInfoApi.js'
 
-
+Vue.prototype.$http = axios
 router.beforeEach((to, from, next) => {
     const tempUserToken = store.state.UserToken ;
     //匹配需要验证用户登录的路径
