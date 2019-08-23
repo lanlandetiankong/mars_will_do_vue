@@ -10,11 +10,19 @@
                     <el-card shadow="hover">
                         <template slot="header">
                             <el-row>
-                                <el-col :span=23>
+                                <el-col :span=20>
                                     <el-tag effect="dark" size="medium" :hit=true
                                             :type="item.vueElType">
                                         <el-icon :class="item.vueElIcon"></el-icon>    {{item.name}}
                                     </el-tag>
+                                </el-col>
+                                <el-col :span=3>
+                                    <el-progress
+                                        :percentage="item.progressRate"
+                                        :status="item.progressRateStatus"
+                                        :show-text=true
+                                    >
+                                    </el-progress>
                                 </el-col>
                                 <el-col :span=1>
                                     <el-dropdown @command="handleActionCommandClick($event,item)">

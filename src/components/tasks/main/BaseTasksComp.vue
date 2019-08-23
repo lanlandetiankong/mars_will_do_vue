@@ -37,6 +37,15 @@
                                @click="handleAddTaskForm"
                     >
                     </el-button>
+                    <el-button round
+                               type="primary"
+                               size="mini"
+                               icon="el-icon-refresh"
+                               :loading="taskTableListLoading"
+                               @click="handleGetTaskTableList"
+                    >
+                        刷新列表
+                    </el-button>
                 </div>
             </el-header>
             <el-main>
@@ -51,7 +60,7 @@
         <task-create-form-comp
             :isFormDialogVisible="isFormDialogVisible"
             :isNewForm="isNewForm"
-            :taskFormModel="taskFormModel"
+            :taskFormTempModel="taskFormTempModel"
             @edit-form-close="handleAddTaskFormDialogClose"
         >
         </task-create-form-comp>
@@ -130,16 +139,34 @@
                     activityProjectId:'',
                     taskLevel:'',
                     planDate:[],
+                    description:'',
+                    progressRate:0,
                     presenter:'',
                     participant:'',
                     firstNote: '',
                     secondNote: '',
                     thirdNote:''
                 },
+                taskFormTempModel: {
+                    id: '',
+                    name: '',
+                    description:'',
+                    progressRate:0,
+                    hurryLevel: '',
+                    activityProjectId: '',
+                    taskLevel: '',
+                    planDate: [],
+                    presenter: '',
+                    participant: '',
+                    firstNote: '',
+                    secondNote: '',
+                    thirdNote: ''
+                },
                 searchModel:{
                     content:''
                 },
-                taskTableList:[]
+                taskTableList:[],
+                taskTableListLoading:true
             }
         },
         methods: {
@@ -148,27 +175,34 @@
             },
             handleAddTaskForm(e) {
                 this.isFormDialogVisible = true ;
-                this.taskFormModel = this.defaultTaskFormModel ;
+                this.isNewForm = true ;
+                this.taskFormTempModel = JSON.parse(JSON.stringify(this.defaultTaskFormModel));
             },
             handleEditTaskForm(item){
                 this.isFormDialogVisible = true ;
                 this.isNewForm = false ;
-                this.taskFormModel = item ;
+                this.taskFormTempModel = item ;
+                this.taskFormTempModel = JSON.parse(JSON.stringify(item));
                 var itemPlanStartDateStr = item.planStartDateStr;
                 var itemPlanEndDateStr = item.planEndDateStr;
                 var itemPlanDateStrArr = [itemPlanStartDateStr,itemPlanEndDateStr] ;
                 console.log(item) ;
-                this.taskFormModel.planDate = itemPlanDateStrArr ;
+                this.taskFormTempModel.planDate = itemPlanDateStrArr ;
             },
-            handleAddTaskFormDialogClose(e) {
+            handleAddTaskFormDialogClose(e,isSubmit) {
                 this.isFormDialogVisible = false ;
-                this.taskFormModel = this.defaultTaskFormModel ;
+                this.taskFormTempModel = JSON.parse(JSON.stringify(this.defaultTaskFormModel ));
+                if(isSubmit == true) {
+                    this.handleGetTaskTableList(e);
+                }
             },
             handleGetTaskTableList(e) {
                 var _this = this ;
+                _this.taskTableListLoading = true;
                 BaseTaskCompApi.doGetAllMyTasks(_this.searchModel).then(res => {
                     _this.taskTableList = res.resultList ;
                 })
+                _this.taskTableListLoading = false;
             },
         },
         mounted(){

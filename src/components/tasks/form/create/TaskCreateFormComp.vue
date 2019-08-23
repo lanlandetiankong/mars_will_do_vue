@@ -7,12 +7,12 @@
         >
             <el-form
                 label-width="100px"
-                v-model="taskFormModel">
+                v-model="taskFormTempModel">
                 <el-form-item label="任务名" prop="name">
-                    <el-input v-model="taskFormModel.name"></el-input>
+                    <el-input v-model="taskFormTempModel.name"></el-input>
                 </el-form-item>
                 <el-form-item label="归属项目" prop="activityProjectId">
-                    <el-select v-model="taskFormModel.activityProjectId">
+                    <el-select v-model="taskFormTempModel.activityProjectId">
                         <el-option
                             v-for="taskProject of taskProjectList"
                             :key="taskProject.id"
@@ -23,7 +23,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="任务级别" prop="taskLevel">
-                    <el-select v-model="taskFormModel.taskLevel">
+                    <el-select v-model="taskFormTempModel.taskLevel">
                         <el-option
                             v-for="taskHurryLevelItem of taskHurryLevelList"
                             :key="taskHurryLevelItem.key"
@@ -34,7 +34,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="描述" prop="description">
-                    <el-input v-model="taskFormModel.description"></el-input>
+                    <el-input type="textarea"
+                        v-model="taskFormTempModel.description"></el-input>
                 </el-form-item>
                 <br/>
                 <el-form-item label="任务时间安排" prop="planDate">
@@ -42,10 +43,34 @@
                         type="datetimerange"
                         placeholder="选择日期"
                         value-format="yyyy-MM-dd HH:mm:ss"
-                        v-model="taskFormModel.planDate"
+                        v-model="taskFormTempModel.planDate"
                         :validate-event=true
                     >
                     </el-date-picker>
+                </el-form-item>
+                <el-form-item label="任务进度" prop="progressRate">
+                    <el-col :span=12>
+                        <el-input-number
+                            :min=0 :max=100
+                            v-model="taskFormTempModel.progressRate"
+                        >
+                        </el-input-number>
+                    </el-col>
+                    <el-col :span=12>
+                        <el-progress :percentage="taskFormTempModel.progressRate"></el-progress>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="任务是否异常" prop="progressIsException">
+                    <el-switch
+                        v-model="taskFormTempModel.progressIsException"
+                        :active-value=1
+                        :inactive-value=0
+                    >
+                    </el-switch>
+                </el-form-item>
+                <el-form-item label="异常情况" prop="progressExceptionNote" v-show="isProgressException">
+                    <el-input type="textarea"
+                        v-model="taskFormTempModel.progressExceptionNote"></el-input>
                 </el-form-item>
                 <el-form-item label="更多表单设置">
                     <el-switch
@@ -55,19 +80,19 @@
 
 
                 <el-form-item label="提出者" prop="presenter" v-show="isFormShowMore">
-                    <el-input v-model="taskFormModel.presenter"></el-input>
+                    <el-input v-model="taskFormTempModel.presenter"></el-input>
                 </el-form-item>
                 <el-form-item label="参与者" prop="participant" v-show="isFormShowMore">
-                    <el-input v-model="taskFormModel.participant"></el-input>
+                    <el-input v-model="taskFormTempModel.participant"></el-input>
                 </el-form-item>
                 <el-form-item label="便签1" prop="firstNote" v-show="isFormShowMore">
-                    <el-input v-model="taskFormModel.firstNote"></el-input>
+                    <el-input v-model="taskFormTempModel.firstNote"></el-input>
                 </el-form-item>
                 <el-form-item label="便签2" prop="secondNote" v-show="isFormShowMore">
-                    <el-input v-model="taskFormModel.secondNote"></el-input>
+                    <el-input v-model="taskFormTempModel.secondNote"></el-input>
                 </el-form-item>
                 <el-form-item label="便签3" prop="thirdNote" v-show="isFormShowMore">
-                    <el-input v-model="taskFormModel.thirdNote"></el-input>
+                    <el-input v-model="taskFormTempModel.thirdNote"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button
@@ -93,10 +118,12 @@
     export default {
         name: "TaskCreateFormComp",
         props: {
-            taskFormModel: {
+            taskFormTempModel: {
                 id: '',
                 name: '',
                 description:'',
+                progressRate:0,
+                progressIsException:0,
                 hurryLevel: '',
                 activityProjectId: '',
                 taskLevel: '',
@@ -120,6 +147,10 @@
         computed: {
             dialogTitle() {
                 return this.isNewForm ? "新建任务" : "编辑任务";
+            },
+            isProgressException() {
+                var _this = this ;
+                return _this.taskFormTempModel.progressIsException == 1 ? true : false ;
             }
         },
         methods: {
@@ -142,20 +173,25 @@
                 var _this = this;
                 //新增
                 if(_this.isNewForm == true) {
-                    TaskCreateFormCompApi.doAddActivityProjectByFormModel(_this.taskFormModel).then(res => {
+                    TaskCreateFormCompApi.doAddActivityProjectByFormModel(_this.taskFormTempModel).then(res => {
                         _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info);
-                        _this.handleCloseFormDialog(e);
+                        _this.handleCloseFormDialog(e,true);
                     })
                 }   else {
+                    console.log("_this.taskFormTempModel ==> " ,_this.taskFormTempModel);
                     //更新
-                    TaskCreateFormCompApi.doEditActivityProjectByFormModel(_this.taskFormModel).then(res => {
+                    TaskCreateFormCompApi.doEditActivityProjectByFormModel(_this.taskFormTempModel).then(res => {
                         _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info);
-                        _this.handleCloseFormDialog(e);
+                        _this.handleCloseFormDialog(e,true);
                     })
                 }
             },
-            handleCloseFormDialog(e) {
-                this.$emit('edit-form-close', e);
+            handleCloseFormDialog(e,isSubmit) {
+                var _this = this ;
+                if(typeof isSubmit == "undefined") {
+                    isSubmit = false ;
+                }
+                this.$emit('edit-form-close',e,isSubmit);
             }
         },
         mounted() {
