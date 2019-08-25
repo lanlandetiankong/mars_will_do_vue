@@ -13,8 +13,9 @@ import axios from './config/axios/httpConfig'
 import '~Assets/styles/reset.css'
 import '~Assets/styles/border.css'
 //iconfont
-import '~Assets/iconfont/iconfont.css'
-
+import '~Assets/iconfont/default/iconfont.css'
+import '~Assets/iconfont/default/iconfont.js'
+import '~Assets/iconfont/default/baseicon.css'
 //---------------------------------------------------------------------------->>>>>>js
 import {BeeUtil} from '~Assets/js/util/bee/beeUtil.js'
 import {commonEleNotice} from '~Assets/js/common/notice/myCommonNotice.js'

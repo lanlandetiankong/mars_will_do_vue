@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import IndexPage from '~Pages/index/main/IndexPage'
 import LoginPage from '~Pages/login/main/LoginPage'
-
+import RegisterPage from '~Pages/register/main/RegisterPage'
 Vue.use(Router);
 
 /* 初始路由 */
@@ -20,6 +20,11 @@ let router =  new Router({
             meta:{
                 requiresAuth:true
             }
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: RegisterPage
         }
     ]
 })

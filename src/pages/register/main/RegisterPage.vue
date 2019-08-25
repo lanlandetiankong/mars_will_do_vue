@@ -1,29 +1,30 @@
 <template>
-    <div class="login-page-root">
-        <div class="login-page">
-            <base-login-comp
-                ref="baseLoginCompRef"
-                @login-submit="handleUserAccountLogin($event,arguments)"
+    <div class="register-page-root">
+        <div class="register-page">
+            <base-register-comp
+                ref="baseRegisterCompRef"
+                @register-submit="handleUserAccountRegister($event,arguments)"
+                @register-send-email-action="handleRegisterSendEmail($event,arguments)"
             >
-            </base-login-comp>
+            </base-register-comp>
         </div>
     </div>
 </template>
 <script>
-    import BaseLoginComp from '~Components/login/main/BaseLoginComp'
+    import BaseRegisterComp from '~Components/register/main/BaseRegisterComp'
     //js
-    import {LoginPageApi} from './_LoginPageApi' ;
+    import {RegisterPageApi} from './_RegisterPage' ;
     export default {
-        name: "LoginPage",
+        name: "RegisterPage",
         components:{
-            BaseLoginComp
+            BaseRegisterComp
         },
         data() {
           return {
               //自定义常量，别改
               constantKey:{
-                  loginCompRefName:'baseLoginCompRef',
-                  loginCompFormRefName:'loginForm',
+                  registerCompRefName:'baseRegisterCompRef',
+                  registerCompFormRefName:'registerFormRef',
                   token:{
                       userToken:'userToken',
                       userInfo:'userInfo'
@@ -33,17 +34,17 @@
           }
         },
         methods:{
-            handleUserAccountLogin(e,args) {
+            handleUserAccountRegister(e,args) {
                 var _this = this ;
                 if(args) {
                     var formModel = args[0];
-                    LoginPageApi.doUserAccountLogin(formModel).then(res => {
+                    RegisterPageApi.doUserAccountRegister(formModel).then(res => {
                         if(res.hasWarning){
                             _this.$commonEleNotice.notification.handleShowWarningNotify(res.info) ;
                         }
                         if(res.actionFlag == false){
-                            //登录失败：清空输入框
-                            _this.compBaseLoginCompFormRef.resetFields();
+                            //注册失败：清空输入框
+                            _this.compBaseRegisterCompFormRef.resetFields();
                         }   else {
                             _this.dealUserTokenSet(res.bean) ;
                             if(_this.checkIsUserTokenExist()) {
@@ -68,23 +69,33 @@
                     console.log(" sessionUserToken null") ;
                 }
                 return false ;
+            },
+            handleRegisterSendEmail(e,args){
+                var _this = this ;
+                var registerModel = args[0] ;
+                RegisterPageApi.doUserAccountRegisterCheckEmail(registerModel).then(res => {
+                    if(res.actionFlag == true){
+                        _this.$commonEleNotice.notification.handleShowSuccessNotify(res.info);
+                    }   else {
+                        _this.$commonEleNotice.notification.handleShowErrorNotify(res.info);
+                    }
+                })
             }
         },
         computed:{
-            compBaseLoginCompFormRef() {
+            compBaseRegisterCompFormRef() {
                 //返回登录组件form的ref指向
                 var _this = this ;
-                //当前 login_comp 的ref
-                var baseLoginCompRef = _this.$refs[_this.constantKey.loginCompRefName];
+                //当前 register_comp 的ref
+                var baseRegisterCompRef = _this.$refs[_this.constantKey.registerCompRefName];
                 //登录表单的ref
-                return baseLoginCompRef.$refs[_this.constantKey.loginCompFormRefName];
+                return baseRegisterCompRef.$refs[_this.constantKey.registerCompFormRefName];
             }
         },
         mounted() {
-            //this.$commonEleNotice.msgBox.handleShowSimpleInfoConfirm("测试");
         }
     }
 </script>
 <style scoped lang="stylus">
-    @import './_LoginPage.styl'
+    @import '_RegisterPage.styl'
 </style>
