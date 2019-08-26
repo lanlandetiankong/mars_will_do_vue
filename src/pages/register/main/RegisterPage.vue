@@ -25,10 +25,6 @@
               constantKey:{
                   registerCompRefName:'baseRegisterCompRef',
                   registerCompFormRefName:'registerFormRef',
-                  token:{
-                      userToken:'userToken',
-                      userInfo:'userInfo'
-                  }
 
               }
           }
@@ -48,7 +44,7 @@
                         }   else {
                             _this.dealUserTokenSet(res.bean) ;
                             if(_this.checkIsUserTokenExist()) {
-                                _this.$router.push("/index") ;
+                                _this.$router.push("/") ;
                             }
                         }
                     })
@@ -61,7 +57,7 @@
             },
             checkIsUserTokenExist() {
                 var _this = this ;
-                let sessionUserToken = sessionStorage.getItem(_this.constantKey.token.userToken) ;
+                let sessionUserToken = sessionStorage.getItem("userToken") ;
                 if(sessionUserToken) {
                     console.log(sessionUserToken) ;
                     return true ;
@@ -71,6 +67,7 @@
                 return false ;
             },
             handleRegisterSendEmail(e,args){
+                //发送验证码到邮箱
                 var _this = this ;
                 var registerModel = args[0] ;
                 RegisterPageApi.doUserAccountRegisterCheckEmail(registerModel).then(res => {

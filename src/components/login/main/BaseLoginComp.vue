@@ -2,11 +2,6 @@
     <div>
         <div>
             <el-container>
-                <el-header>
-                    <div>
-
-                    </div>
-                </el-header>
                 <el-main>
                     <el-form ref="loginForm" :model="formModel" key="loginFormKey" :rules="rules" label-width="80px" class="login-box">
                         <div>
@@ -37,24 +32,16 @@
                                 show-password
                                 placeholder="请输入密码"/>
                         </el-form-item>
-                        <el-button
+                        <el-button round
                             type="primary"
                             icon="mars-icons mars-icon-Hold"
                             @click="onsubmit($event,'loginForm')"
-                        > Travel Mars</el-button>
-                        <el-button
-                            type="primary"
-                            icon="mars-icons mars-icon-Flag"
-                            @click="handleRegisterUserAccount"
-                        >
-                            Register 4 Mars
-                        </el-button>
+                        > 登陆</el-button>
                     </el-form>
                     <el-dialog
                         title="温馨提示"
                         :visible.sync="dialogVisible"
                         width="30%"
-                        :before-close="handleClose"
                     >
                         <span>请输入账号和密码</span>
                         <span slot="footer" class="dialog-footer">
@@ -63,17 +50,7 @@
                     </el-dialog>
                 </el-main>
                 <el-footer>
-                    <el-col :span=23>
-                        <el-progress :text-inside="true" :stroke-width="24"
-                                     :percentage="progressConfigModel.percentage"
-                                     :status="progressConfigModel.status">
-                        </el-progress>
-                    </el-col>
-                    <el-col :span=1>
-                        <svg class="mars-icons" aria-hidden="true">
-                            <use xlink:href="#mars-icon-huoxing"></use>
-                        </svg>
-                    </el-col>
+                    <login-footer-comp></login-footer-comp>
                 </el-footer>
             </el-container>
         </div>
@@ -82,10 +59,11 @@
 <script>
     //js
     import {BaseLoginCompApi} from './_BaseLoginCompApi.js'
-
+    import LoginFooterComp from '../footer/LoginFooterComp'
 
     export default {
         name: "BaseLoginComp",
+        components: {LoginFooterComp},
         props: {
 
         },
@@ -108,11 +86,6 @@
                     }
                 },
                 dialogVisible: false,
-                progressConfigModel:{
-                    percentage:0,
-                    status:null
-                },
-                progressTimer:null,
                 register:{
                     showDialog:true,
                     model:{}
@@ -131,38 +104,9 @@
                         return false;
                     }
                 })
-            },
-            handleClose() {
-
-            },
-            handleRegisterUserAccount(e) {
-                this.$router.push("/register");
-            },
-            handleProgressLiveChange(e){
-                //下方进度条控制
-                var _this = this ;
-                if(parseInt(_this.progressConfigModel.percentage) >= 100) {
-                    //关闭定时器
-                    clearInterval(this.progressTimer);
-                }
-                var randomNum = parseInt(Math.round(Math.random()*10)) ;
-                if(_this.progressConfigModel.percentage + randomNum >= 100) {
-                    _this.progressConfigModel.percentage = 100 ;
-                }   else {
-                    _this.progressConfigModel.percentage += randomNum ;
-                }
-                var newProgressPercentage = _this.progressConfigModel.percentage ;
-                if(80 < newProgressPercentage) {
-                    _this.progressConfigModel.status =  null ;
-                }   else if(60 < newProgressPercentage &&  newProgressPercentage < 80){
-                    _this.progressConfigModel.status =  "success" ;
-                }   else {
-                    _this.progressConfigModel.status =  "warning" ;
-                }
             }
         },
         mounted() {
-            this.progressTimer = setInterval(this.handleProgressLiveChange, 500);
         }
     }
 </script>

@@ -8,14 +8,19 @@ import qs from 'qs'
 export const RegisterPageApi = {
     doUserAccountRegister(formModel) {
         const param = {
-            account:formModel.username,
-            password:formModel.password
+            nickName:formModel.nickname,
+            sex:formModel.sex,
+            account:formModel.account,
+            password:formModel.password,
+            email:formModel.email,
+            telephone:formModel.telephone,
+            validateCode:formModel.validateCode
         }
         return axios.post('/user_account/register',qs.stringify(param)).then(res => res) ;
     },
     doUserAccountRegisterCheckEmail(formModel) {
         const param = {
-            name:formModel.username,
+            nickName:formModel.nickname,
             sex:formModel.sex,
             account:formModel.account,
             password:formModel.password,

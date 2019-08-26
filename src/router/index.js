@@ -3,6 +3,11 @@ import Router from 'vue-router'
 import IndexPage from '~Pages/index/main/IndexPage'
 import LoginPage from '~Pages/login/main/LoginPage'
 import RegisterPage from '~Pages/register/main/RegisterPage'
+
+
+//user center
+import UserCenterPage from '~Pages/user/center/main/UserCenterPage'
+import ForgetPasswordPage from '~Pages/user/center/password/forget/ForgetPasswordPage'
 Vue.use(Router);
 
 /* 初始路由 */
@@ -25,7 +30,34 @@ let router =  new Router({
             path: '/register',
             name: 'Register',
             component: RegisterPage
+        },
+        {
+            path:'user',
+            name:'User',
+            children:[
+                {
+                    path:'center',
+                    name:"UserCenter",
+                    component:UserCenterPage,
+                    children: [
+                        {
+                            path: '/password',
+                            name: 'UserPasswordPage',
+                            children:[
+                                {
+                                    path:'forget',
+                                    name: 'UserForgetPasswordPage',
+                                    component: ForgetPasswordPage,
+                                }
+                            ]
+                        },
+                    ]
+                },
+            ]
         }
+
+
+
     ]
 })
 export const DynamicRouters = [

@@ -10,15 +10,15 @@
                                 <use xlink:href="#mars-icon-xingqiu"></use>
                             </svg>
                         </div>
-                        <el-form-item prop="username">
+                        <el-form-item prop="nickname">
                             <template slot="label">
                                 <svg class="mars-icons" aria-hidden="true">
                                     <use xlink:href="#mars-icon-huoxinglieren"></use>
                                 </svg>
                             </template>
                             <el-input type="text" clearable
-                                      prefix-icon="el-icon-user" placeholder="请输入用户名"
-                                      v-model="registerModel.username"/>
+                                      prefix-icon="el-icon-user" placeholder="请输入昵称"
+                                      v-model="registerModel.nickname"/>
                         </el-form-item>
                         <el-form-item prop="account">
                             <template slot="label">
@@ -47,7 +47,7 @@
                         <el-form-item prop="sex">
                             <template slot="label">
                                 <svg class="mars-icons" aria-hidden="true">
-                                    <use xlink:href="#mars-icon-private"></use>
+                                    <use xlink:href="#mars-icon-yonghushezhi"></use>
                                 </svg>
                             </template>
                             <el-radio-group v-model="registerModel.sex">
@@ -93,42 +93,42 @@
                                       readonly onfocus="this.removeAttribute('readonly');"
                                       placeholder="请输入验证码"/>
                         </el-form-item>
-                        <el-button
+                        <el-button round
                             type="success"
                             icon="mars-icons mars-icon-waixingren2"
                             @click="onRegister($event,'registerFormRef')"
                         > Ready 4 Register
                         </el-button>
-                        <el-button
+                        <el-button round
                             type="primary"
                             icon="mars-icons mars-icon-email"
                             @click="handleSendEmailCode"
                         > Send Email AuthCode
                         </el-button>
-                        <el-button
-                            type="primary"
-                            icon="mars-icons mars-icon-Hold"
-                            @click="handleJumpToLogin"
-                        > Jump 2 Login
-                        </el-button>
                     </el-form>
                 </el-main>
+                <el-footer>
+                    <register-footer-comp></register-footer-comp>
+                </el-footer>
             </el-container>
         </div>
     </div>
 </template>
 <script>
     import {BaseRegisterCompApi} from './_BaseRegisterCompApi.js'
-
+    import RegisterFooterComp from '../footer/RegisterFooterComp'
     export default {
         name: "BaseRegisterComp",
+        components:{
+            RegisterFooterComp
+        },
         props: {},
         data() {
             return {
                 rules: {
-                    username: {
+                    nickname: {
                         required: true,
-                        message: '用户名不能为空',
+                        message: '昵称不能为空',
                         trigger: 'blur'
                     },
                     account: {
@@ -151,9 +151,9 @@
                 },
                 dialogVisible: false,
                 registerModel:{
-                    username: 'ceshi1',
-                    account: 'ceshiaccount',
-                    password: 'sdsdsds',
+                    nickname: '测试账号',
+                    account: 'ceshi10',
+                    password: '123456',
                     sex:1,
                     email:'695605813@qq.com',
                     telephone:'',
@@ -189,9 +189,6 @@
                         return false;
                     }
                 })
-            },
-            handleJumpToLogin(e) {
-                this.$router.push("/login");
             },
             handleSendEmailCode(e){
                 var _this = this ;
